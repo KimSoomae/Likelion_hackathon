@@ -8,3 +8,10 @@ class Group(models.Model):
     
     def __self__(self):
         return self.title
+
+'''
+class team(models.Model):
+    deadline = models.DateField()
+    timeFromStart = models.DurationField()
+    mateList = models.ManyToManyField("profile", blank=True)
+    '''
