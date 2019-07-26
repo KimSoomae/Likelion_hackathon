@@ -20,6 +20,8 @@ def main(request):
         return render(request,'profile.html')
 
 def mypage(request):
+    if not request.user.is_authenticated:
+        return render(request,'login.html')
     TeamList = request.user.team_set.all().values()
     return render(request,'mypage.html', {'Teams':TeamList})
 
