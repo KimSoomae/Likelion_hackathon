@@ -6,11 +6,11 @@ from django.contrib import auth
 
 # Create your views here.
 def main(request):
-    userId = request.user.username
     # not logged in -> main.html
     if not request.user.is_authenticated:
         return render(request, 'main.html')
     # logged in
+    userId = request.user.username
     try:
         # profile O -> main.html
         prof = request.user.profile
@@ -20,8 +20,8 @@ def main(request):
         return render(request,'profile.html')
 
 def mypage(request):
-    prof = request.user.profile
-    return render(request,'mypage.html')
+    TeamList = request.user.team_set.all().values()
+    return render(request,'mypage.html', {'Teams':TeamList})
 
 def changeProfile(request):
     prof = request.user.profile
@@ -75,7 +75,5 @@ def create(request):
 
 
 def logout(request):
-    print("fucking logout")
     auth.logout(request)
-    print("fucking logout2222222222")
     return redirect('main')

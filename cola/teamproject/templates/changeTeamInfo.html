@@ -458,44 +458,25 @@
     {% extends 'base.html' %} {% block content %}
 
     <div style="border: 2px solid rgba(211, 211, 211, 0.795); float: left; width: 43%; height:500px; padding:10px;">
-            <div class="box" style="text-align: center;">
-                <h4 class="firstbox">프로필</h4>
-                {{ user.profile.img }}
-                <h1>{{ user.profile.userName }}</h1>
-                <h1>{{ user.profile.school }}</h1>
-                <h1>{{ user.profile.date }}</h1>
-    
-                <form method="POST" action="{%url 'changeProfile'%}">
+        <div class="box" style="text-align: center;">
+            <h4 class="firstbox">팀 정보 변경</h4><br><br>
+            <div class="X">
+
+                <form method="POST" action="{% url 'changeTeamInfo' %}">
                     {% csrf_token %}
-                    <input type="hidden" name="type" value="change">
-                    <input type="submit" value="변경">
+                    <h4>팀 명</h4>
+                    <input type="text" name="teamName" maxlength="50" placeholder="{{team.name}}"/>
+                    <br><br>
+                    <h4>데드라인</h4>
+                    <input type="date" name="deadline">
+                    <h4>진행도</h4>
+                    <input type="number" name="progress" placeholder="진행도"><br>
+                    <input type="checkbox" name="is_finished" value="finished">팀플 완료 여부
+                    <input type="hidden" name="teamId" value="{{team.id}}">
+                    <input type="submit" value="생성" />
                 </form>
-    
             </div>
-            <div class="chart-container"><canvas id="myChart" width="425" height="200"></canvas></div>
-    
-    
-    
-        </div>
-    
-        <div style="border: 2px solid rgba(211, 211, 211, 0.795); float: left; width: 43.5%; height: 500px; padding:10px;">
-            <div style="text-align: center;">
-                <h4 class="firstbox">팀 목록</h4><a href="{% url 'createTeam' %}">팀 생성</a>
 
-                {% for team in Teams %}
-                <div>
-                    <form method="POST" action="{% url 'teamInfo' %}">
-                        {% csrf_token %}
-                        <input type="hidden" value="{{team.id}}" name="teamId">
-                        <input type="submit" value="{{team.name}}" />
-                    </form>
-                </div>
-                {% endfor %}
-            </div>
-    
-            <br>
-            <br>
         </div>
-
     {% endblock %}
 </body>

@@ -457,45 +457,26 @@
 
     {% extends 'base.html' %} {% block content %}
 
-    <div style="border: 2px solid rgba(211, 211, 211, 0.795); float: left; width: 43%; height:500px; padding:10px;">
-            <div class="box" style="text-align: center;">
-                <h4 class="firstbox">프로필</h4>
-                {{ user.profile.img }}
-                <h1>{{ user.profile.userName }}</h1>
-                <h1>{{ user.profile.school }}</h1>
-                <h1>{{ user.profile.date }}</h1>
-    
-                <form method="POST" action="{%url 'changeProfile'%}">
-                    {% csrf_token %}
-                    <input type="hidden" name="type" value="change">
-                    <input type="submit" value="변경">
-                </form>
-    
-            </div>
-            <div class="chart-container"><canvas id="myChart" width="425" height="200"></canvas></div>
-    
-    
-    
-        </div>
-    
-        <div style="border: 2px solid rgba(211, 211, 211, 0.795); float: left; width: 43.5%; height: 500px; padding:10px;">
-            <div style="text-align: center;">
-                <h4 class="firstbox">팀 목록</h4><a href="{% url 'createTeam' %}">팀 생성</a>
+    {% if request.user == team.leader %}
+    <form method="POST" action="{% url 'changeTeamInfo' %}">
+        {% csrf_token %}
+        <input type="hidden" value="{{team.id}}" name="teamId">
+        <input type="hidden" value="request" name="type">
+        <input type="submit" value="팀 정보 변경" />
+    </form>
+    {% endif %}
 
-                {% for team in Teams %}
-                <div>
-                    <form method="POST" action="{% url 'teamInfo' %}">
-                        {% csrf_token %}
-                        <input type="hidden" value="{{team.id}}" name="teamId">
-                        <input type="submit" value="{{team.name}}" />
-                    </form>
-                </div>
-                {% endfor %}
-            </div>
-    
-            <br>
-            <br>
-        </div>
+    <h5>팀명 : {{team.name}}</h5>
+    <h5>데드라인 : {{team.deadline}}</h5>
+    <h5>지난시간 : {{team.timeFromStart}}</h5>
+    <h5>진행도 : {{team.progress}}</h5>
+    <h5>팀원리스트 : </h5>
+    <h5>{{members}}</h5>
+    {% if team.is_finished %}
+    <h5>팀플 완료!</h5>
+    {% else %}
+    <h5>진행중..</h5>
+    {% endif %}
 
     {% endblock %}
 </body>
