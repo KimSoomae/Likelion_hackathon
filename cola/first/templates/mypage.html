@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>my page</title>
+    <title>main</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -71,29 +71,58 @@
             color: rgba(0, 0, 0, 0.411);
         }
         
+         :root {
+            --primary-color: #333;
+            --highlight-color: #f66;
+        }
+        
         #div_menu {
             position: relative;
             width: 10%;
             height: 600px;
             float: left;
             color: white;
-            background-color: rgb(212, 35, 35);
-            text-align: left;
-            font-family: 'Do Hyeon', sans-serif;
-            padding: 10px;
-        }
-        
-        #div_menu>a {
-            font-size: 19.5px;
-            font-family: 'Do Hyeon', sans-serif;
+            background: var(--primary-color);
             text-align: center;
-            color: black;
+            font-family: 'Do Hyeon', sans-serif;
+            list-style: none;
+            padding: 10px;
+            padding-top: 20px;
         }
         
-        #div_menu>a:hover {
-            color: white;
-            font-style: normal;
+        input,
+        button,
+        a {
+            transition: 0.25s;
+        }
+        
+        .nav-link {
+            letter-spacing: 1px;
+            font-weight: bold;
             text-decoration: none;
+            font-family: sans-serif;
+            padding: 0px;
+            color: #fff;
+        }
+        
+        .nav-link::after {
+            content: '';
+            display: block;
+            height: 3px;
+            width: 30%;
+            background: #fff0;
+            margin: auto;
+            border-radius: 5px;
+        }
+        
+        .nav-link:hover {
+            color: var(--highlight-color);
+        }
+        
+        .nav-link:hover::after,
+        .nav-link:focus::after {
+            width: 100%;
+            background: var(--highlight-color);
         }
         
         .firstcontainer {
@@ -128,13 +157,61 @@
             text-decoration: none;
             color: black;
         }
+        
+        .box {
+            font-family: 'Do Hyeon', sans-serif;
+            font-size: 20px;
+        }
+        
+        .firstbox {
+            font-family: 'Do Hyeon', sans-serif;
+            font-size: 30px;
+        }
+        
+        .input-text {
+            border: 2px solid #0000;
+            border-bottom: 2px solid var(--highlight-color);
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 18px;
+        }
+        
+        .input-text::placeholder {
+            color: var(--highlight-color);
+        }
+        
+        .input-text:focus {
+            color: var(--primary-color);
+        }
+        
+        .submit {
+            background: var(--highlight-color);
+            color: #fff;
+            padding: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            border: 2px solid var(--highlight-color);
+            cursor: pointer;
+        }
+        
+        .submit:hover,
+        .submit:focus {
+            background: #0000;
+            color: var(--highlight-color);
+        }
+        
+        .input-text,
+        .submit {
+            width: 100%;
+            max-width: 400px;
+            margin: 25px auto 0;
+        }
     </style>
-
 </head>
 
 <body>
     <header>
-        <a style="font-family: 'Great Vibes', cursive;">
+        <a style="font-family: 'Great Vibes', cursive;" href="{% url 'main' %}">
             <STRONG>&nbsp;<span>Colla</span><span class="boration">boration</span></STRONG>
         </a>
         <ul class="snip1198">
@@ -153,42 +230,49 @@
 
     <section>
         <div id="div_menu">
-            <a href="{% url 'mypage' %}">my Page</a><br>
-            <a href="{% url 'teamproject' %}">Team Page</a><br>
-            <a href="#">Team create</a><br>
-            <a href="{% url 'board' %}">Board</a><br>
-        </div>
+            <li class="nav-item"><a href="{% url 'mypage' %}" class="nav-link">my Page</a></li><br>
+            <li class="nav-item"><a href="{% url 'teamproject' %}" class="nav-link">Team Page</a></li><br>
+            <li class="nav-item"><a href="#" class="nav-link">Team create</a></li><br>
+            <li class="nav-item"><a href="{% url 'board' %}" class="nav-link">Board</a></li><br>
 
+        </div>
 
 
         <div style="border: 2px solid rgba(211, 211, 211, 0.795); float: left; width: 43%; height:500px; padding:10px;">
             <div class="box" style="text-align: center;">
-                <h5 class="firstbox">프로필</h5>
-                { { user.profile.img } }
+                <h4 class="firstbox">프로필</h4><br><br> {{ user.profile.img }}
+                <p><span>이름 :</span> {{ user.profile.userName }}</p>
+                <p><span>학교/회사 :</span> {{ user.profile.school }}</p>
+                <p><span>가입 날짜 :</span> {{ user.profile.date }}</p>
 
-                <p>{ { user.profile.userName } }</p>
+                <form method="POST" action="{%url 'changeProfile'%}">
+                    {% csrf_token %}
+                    <input type="hidden" name="type" value="change">
+                    <input class="submit" type="submit" value="변경하기">
+                </form>
 
-                <p> { { user.profile.school } }</p>
-
-
-                <p> { { user.profile.date } }</p>
-
-                <form method="POST" action="{%url 'changeProfile'%}"> { % csrf_token % }
-
-                    <input type="hidden" name="type" value="change"><input type="submit" value="변경"></form>
             </div>
             <div class="chart-container"><canvas id="myChart" width="425" height="200"></canvas></div>
+
+
+
         </div>
+
         <div style="border: 2px solid rgba(211, 211, 211, 0.795); float: left; width: 43.5%; height: 500px; padding:10px;">
             <div style="text-align: center;">
-                <h4 class="firstbox">팀 목록</h4><a href="{% url 'createTeam' %}">팀 생성</a> { % for team in Teams % }
-
+                <h4 class="firstbox">팀 목록</h4><br><br>
+                <a class="submit" href="{% url 'createTeam' %}">팀 생성</a> {% for team in Teams %}
                 <div>
-                    <form method="POST" action="{% url 'teamInfo' %}"> { % csrf_token % }
+                    <form method="POST" action="{% url 'teamInfo' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{team.id}}" name="teamId">
+                        <input type="submit" value="{{team.name}}" />
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
 
-                        <input type="hidden" value="{{team.id}}" name="teamId"><input type="submit" value="{{team.name}}" /></form>
-                </div> { % endfor % }
-
-            </div><br><br></div> { % endblock % }
-
+            <br>
+            <br>
+        </div>
 </body>
