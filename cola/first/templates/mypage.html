@@ -232,7 +232,7 @@
         <div id="div_menu">
             <li class="nav-item"><a href="{% url 'mypage' %}" class="nav-link">my Page</a></li><br>
             <li class="nav-item"><a href="{% url 'teamproject' %}" class="nav-link">Team Page</a></li><br>
-            <li class="nav-item"><a href="#" class="nav-link">Team create</a></li><br>
+            <li class="nav-item"><a href="{% url 'createTeam' %}" class="nav-link">Team create</a></li><br>
             <li class="nav-item"><a href="{% url 'board' %}" class="nav-link">Board</a></li><br>
 
         </div>
@@ -260,14 +260,9 @@
 
         <div style="border: 2px solid rgba(211, 211, 211, 0.795); float: left; width: 43.5%; height: 500px; padding:10px;">
             <div style="text-align: center;">
-                <h4 class="firstbox">팀 목록</h4><br><br>
-                <a class="submit" href="{% url 'createTeam' %}">팀 생성</a> {% for team in Teams %}
+                <h4 class="firstbox">팀 목록</h4><br><br> {% for team in Teams %}
                 <div>
-                    <form method="POST" action="{% url 'teamInfo' %}">
-                        {% csrf_token %}
-                        <input type="hidden" value="{{team.id}}" name="teamId">
-                        <input type="submit" value="{{team.name}}" />
-                    </form>
+                    <h1>{{ team.name }}</h1>
                 </div>
                 {% endfor %}
             </div>
