@@ -85,6 +85,7 @@ def createTeam(request):
             team = t1,
             inviter = request.user,
             )
+        
         creation.save()
 
         return redirect('mypage')

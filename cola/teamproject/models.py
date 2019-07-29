@@ -2,14 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-class Group(models.Model):
-    title = models.CharField(max_length=50)
-    name1 = models.CharField(max_length=50, default='')
-    name2 = models.CharField(max_length=50, default='')
-    
-    def __self__(self):
-        return self.title
-
 class Team(models.Model):
     name = models.CharField(max_length=50)
     leader = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leaderUser', null=True)
