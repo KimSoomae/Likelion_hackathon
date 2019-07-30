@@ -172,8 +172,9 @@ def changeTeamInfo(request):
         except:
             pass
         ################################    
+        
         team.save()
-
+        
         teamId = request.POST['teamId']
         team = Team.objects.get(id=teamId)
         members = team.showMembers()

@@ -15,7 +15,7 @@ class Team(models.Model):
         )
     progress = models.IntegerField(default=0, max_length=100)
     #자료조사파일
-    #refFile = models.FileField(upload_to='refFile/') 
+    refFile = models.FileField(default = 0, upload_to='refFile/', null=True) 
     ################
     #product = models.FileField(upload_to=) ppt
     #참여도
@@ -25,10 +25,7 @@ class Team(models.Model):
         return self.name
     
     def showMembers(self):
-        try:
-            return "\n".join("{0}({1})".format(t.profile.userName, t.username) for t in self.members.all())
-        except:
-            return redirect('changeProfile')
+        return "\n".join("{0}({1})".format(t.profile.userName, t.username) for t in self.members.all())
 
 
 
