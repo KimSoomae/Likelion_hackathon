@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.shortcuts import render,redirect
 
 # Create your models here.
 class Team(models.Model):
@@ -13,8 +14,10 @@ class Team(models.Model):
         through_fields=('team','user'),
         )
     progress = models.IntegerField(default=0, max_length=100)
-    #refFile = models.FileField(upload_to=)
-    #product = models.FileField(upload_to=)
+    #자료조사파일
+    #refFile = models.FileField(upload_to='refFile/') 
+    ################
+    #product = models.FileField(upload_to=) ppt
     #참여도
     is_finished = models.BooleanField(default=False)
 
@@ -22,7 +25,11 @@ class Team(models.Model):
         return self.name
     
     def showMembers(self):
-        return "\n".join("{0}({1})".format(t.profile.userName, t.username) for t in self.members.all())
+        try:
+            return "\n".join("{0}({1})".format(t.profile.userName, t.username) for t in self.members.all())
+        except:
+            return redirect('changeProfile')
+
 
 
 class Invite(models.Model):

@@ -2,6 +2,8 @@ from django.contrib import auth
 from django.shortcuts import render,redirect
 from .models import Team,Invite
 import datetime
+from django.contrib import messages
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -9,7 +11,13 @@ def teamproject(request):
     if not request.user.is_authenticated:
         return render(request,'login.html')
 
-    
+    try:
+        prof = request.user.profile
+        pass
+    except:
+        # profile X -> makeprofile -> profile.html
+        return render(request,'profile.html')
+
     # 유저가 속한 모든 팀 리스트
     TeamList = request.user.team_set.all().values()
 
@@ -58,10 +66,19 @@ def teamproject(request):
 
 def createTeam(request):
     if request.method == 'GET':
-        return render(request, 'createTeam.html')
 
+        try:
+            prof = request.user.profile
+            pass
+        except:
+            # profile X -> makeprofile -> profile.html
+            return render(request,'profile.html')
+
+        return render(request, 'createTeam.html')
+    
     # team info, create team
     elif request.method == 'POST':
+
         '''create team'''
         t1 = Team()
         t1.name = request.POST['teamName']
@@ -96,8 +113,13 @@ def teamInfo(request):
     if request.method == 'POST':
         teamId = request.POST['teamId']
         team = Team.objects.get(id=teamId)
-        members = team.showMembers()
-        return render(request, 'teamInfo.html', {'team':team, 'members':members})
+        try:
+            members = team.showMembers()
+            return render(request, 'teamInfo.html', {'team':team, 'members':members})
+        except:
+            return render(request,'profile.html')
+
+
 
 '''
 지난 시간 -> 남은 시간으로 구현 변경 ㄱㄱ
@@ -144,10 +166,24 @@ def changeTeamInfo(request):
                 team.is_finished = False
         except:
             pass
-        
+        #refFile
+        try:
+            team.refFile = request.FILES['refFile']
+        except:
+            pass
+        ################################    
         team.save()
 
         teamId = request.POST['teamId']
         team = Team.objects.get(id=teamId)
         members = team.showMembers()
         return render(request, 'teamInfo.html', {'team':team, 'members':members})
+
+def searchPerson(request):
+    if request.GET('man_name'):#get 으로 넘어온 이름
+        name = request.GET('man_name')
+        user = User.objects.get(username=name)
+        #db에서 찾아야함(username)
+        return render(request, 'teamInfo.html', {'username' : user})
+    else:
+        return render(request, 'teamInfo.html')

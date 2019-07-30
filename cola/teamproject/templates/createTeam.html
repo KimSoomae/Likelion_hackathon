@@ -191,80 +191,6 @@
             margin-bottom: 20px;
         }
         /** Search Forms and Container **/
-        
-        #search-form-2 {
-            display: block;
-            margin-bottom: 30px;
-        }
-        
-        .container {
-            padding-left: 110px;
-        }
-        
-        .search-field-2 {
-            display: block;
-            width: 265px;
-            padding: 13px 13px;
-            padding-right: 40px;
-            /* Keeps input text from running over the search button */
-            background-color: #fff;
-            font-size: 14px;
-            color: #ccc;
-            border: 1px solid #aaa;
-            /* CSS3 Box Sizing */
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            -ms-box-sizing: border-box;
-            box-sizing: border-box;
-            /* CSS3 Rounded Corners */
-            border-radius: 20px;
-            /* CSS3 Transition (Expanding Effect) */
-            -webkit-transition: all 0.4s linear;
-            -moz-transition: all 0.4s linear;
-            -o-transition: all 0.4s linear;
-            -ms-transition: all 0.4s linear;
-            transition: all 0.4s linear;
-        }
-        
-        .search-field-2:focus {
-            outline: none;
-            width: 300px;
-            color: #666;
-            /* CSS3 Outer Shadow */
-            -webkit-box-shadow: 0 0 0 10px #999;
-            -moz-box-shadow: 0 0 0 10px #999;
-            box-shadow: 0 0 10px #999;
-        }
-        
-        #search-button-2 {
-            background: transparent url('http://tutorialbasement.com/code/css/expanding-search-input-field-using-css3/demo/search-icon.png') center left no-repeat;
-            position: absolute;
-            right: 505px;
-            top: 16px;
-            height: 16px;
-            width: 16px;
-            border: 0;
-            cursor: pointer;
-            /* Set Opacity to 50% on buttons */
-            filter: alpha(opacity=50);
-            /* IE */
-            opacity: 0.50;
-            /* CSS3 Transition */
-            -webkit-transition: all 0.4s linear;
-            -moz-transition: all 0.4s linear;
-            transition: all 0.4s linear;
-        }
-        
-        #search-button-2:hover,
-        #search-button-2:focus {
-            filter: alpha(opacity=100);
-            /* IE */
-            opacity: 1.0;
-        }
-        
-        .search-field-2:focus+#search-button-2 {
-            right: 370px;
-        }
     </style>
 
 </head>
@@ -311,11 +237,7 @@
                         <input type="hidden" name="fromStart" value="1">
                         <input type="hidden" name="progress" value=0><br>
                         <br>
-                        <h4>팀원 추가</h4>
-                        <div class="container">
-                            <input type="text" name="s2" id="s2" name="add_member" class="search-field-2" placeholder="팀원 찾기">
-                            <input type="submit" name="search-button-2" id="search-button-2" value="">
-                        </div>
+
 
 
                         <input class="submit" type="submit" value="생성하기" />

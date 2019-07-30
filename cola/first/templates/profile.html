@@ -232,7 +232,7 @@
         <div id="div_menu">
             <li class="nav-item"><a href="{% url 'mypage' %}" class="nav-link">my Page</a></li><br>
             <li class="nav-item"><a href="{% url 'teamproject' %}" class="nav-link">Team Page</a></li><br>
-            <li class="nav-item"><a href="#" class="nav-link">Team create</a></li><br>
+            <li class="nav-item"><a href="{% url 'createTeam' %}" class="nav-link">Team create</a></li><br>
             <li class="nav-item"><a href="{% url 'board' %}" class="nav-link">Board</a></li><br>
 
         </div>
@@ -255,9 +255,9 @@
                         <input class="input-text" placeholder="Name" name="userName" type="text"><br>
                         <input class="input-text" maxlength="30" name="school" placeholder="school/company name" type="text"><br> {% if user.profile %}<br>
                         <input class="box" type="hidden" name="type" value="change"><br> {% else %}
-                        <input class="box" type="hidden" name="type" value="create"> <br>{% endif %}
-
-                        <button class="submit">생성하기</button>
+                        <input class="box" type="hidden" name="type" value="create"> <br>{% endif %} {% if not user.profile %}
+                        <button class="submit">생성하기</button> {% else %}
+                        <button class="submit">변경하기</button> {% endif %}
                     </form>
                 </div>
 

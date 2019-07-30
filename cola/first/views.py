@@ -22,11 +22,14 @@ def main(request):
 def mypage(request):
     if not request.user.is_authenticated:
         return render(request,'login.html')
-    TeamList = request.user.team_set.all().values()
-    return render(request,'mypage.html', {'Teams':TeamList})
+    try:
+        prof = request.user.profile
+        TeamList = request.user.team_set.all().values()
+        return render(request,'mypage.html', {'Teams':TeamList, 'prof' : prof})
+    except:
+        return render(request,'profile.html')
 
 def changeProfile(request):
-    prof = request.user.profile
     return render(request,'profile.html')
 
 def makeProfile(request):
@@ -35,8 +38,7 @@ def makeProfile(request):
     else:
         prof = profile()
     prof.user = request.user
-    prof.img = request.POST.get('userPic','')
-    #prof.img = request.POST['userPic']
+    prof.img = request.FILES['userPic']
     prof.userName = request.POST['userName']
     prof.school = request.POST['school']
     prof.date = timezone.datetime.now()
