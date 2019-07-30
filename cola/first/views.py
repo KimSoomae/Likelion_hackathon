@@ -49,6 +49,18 @@ def board(request):
     boards = Board.objects
     return render(request, 'board.html', {'boards':boards})
 
+def infoboard(request):
+    boards = Board.objects
+    return render(request, 'infoboard.html', {'boards':boards})
+
+def ppt_board(request):
+    boards = Board.objects
+    return render(request, 'pptboard.html', {'boards':boards})
+
+def presentation_board(request):
+    boards = Board.objects
+    return render(request, 'presentationboard.html', {'boards':boards})
+
 def detail(request, board_id):
     board_detail = get_object_or_404(Board, pk = board_id)
     return render(request, 'detail.html', {'board':board_detail})

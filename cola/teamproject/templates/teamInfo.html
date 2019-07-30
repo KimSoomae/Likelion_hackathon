@@ -577,42 +577,11 @@
     <h5>데드라인 : {{team.deadline}}</h5>
     <h5>지난시간 : {{team.timeFromStart}}</h5>
     <h5>진행도 : {{team.progress}}</h5>
-    <h5>팀원리스트 : </h5>
+    <h5>팀원리스트 : </h5><a href="{% url 'searchPerson' team.id%}">팀원 추가</a>
     <h5>{{members}}</h5>
-    <form>
-        <p>팀원추가</p>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" id="plus-button">
-            <p class="plus">+</p>
-        </button>
-        <!--modal 팀원추가-->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">팀원 찾기</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="GET" action="{% url 'searchPerson' %}">
-                            <div class="container">
-                                <input type="text" name="s2" id="s2" name="add_member" class="search-field-2" placeholder="팀원 찾기">
-                                <input type="submit" name="search-button-2" id="search-button-2" value="" name="man_name"> {% if messages %}
+    <h5>자료 파일 : {{team.refFile.url}}</h5>
 
-                            </div>
-                        </form>
-                        {% for name in username %} {{ name }} {% endfor %}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-    </form>
     {% if team.is_finished %}
     <h5>팀플 완료!</h5>
     {% else %}

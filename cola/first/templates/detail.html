@@ -114,6 +114,7 @@
             font-size: 10px;
             position: relative;
             top: -30px;
+            color: black;
         }
         
         .button2 {
@@ -127,31 +128,19 @@
             font-size: 10px;
             position: relative;
             top: -30px;
-        }
-        
-        .button3 {
-            background: none;
-            border: 5px solid black;
-            width: 10px;
-            font-family: 'Do Hyeon', sans-serif;
-            padding: 1.5rem 3rem;
-            box-shadow: 5px 5px black, 10px 10px black, inset 5px 5px white, inset 10px 10px black;
-            font-weight: bold;
-            font-size: 10px;
-            position: relative;
-            top: -30px;
+            color: black;
         }
         
         .button1:hover {
             background-color: rgba(255, 0, 0, 0.466);
+            text-decoration: none;
+            color: black;
         }
         
         .button2:hover {
             background-color: rgba(0, 0, 0, 0.199);
-        }
-        
-        .button3:hover {
-            background-color: rgba(0, 0, 0, 0.199);
+            text-decoration: none;
+            color: black;
         }
         
          ::before,
@@ -238,31 +227,23 @@
                         </tr>
                     </tbody>
                 </table>
+
+
+                <hr> {% for comment in board.comments.all %}
+                <div class="comment">
+                    <div class="date">{{ comment.created_date }}</div>
+                    <strong>{{ comment.author }}</strong>
+                    <p>{{ comment.text|linebreaks }}</p>
+                </div>
+                {% empty %}
+                <p>No comments here yet :(</p>
+                {% endfor %}
+
+                <br><br><br>
+                <a class="button1" href="{% url 'add_comment_to_post' board.id %}" style="margin-left:-140px;">COMMENT</a> &nbsp;&nbsp;&nbsp;
+                <a class="button2" href="{% url 'board' %}" role="button">LIST</a>
+
             </form>
-            <hr> {% for comment in board.comments.all %}
-            <div class="comment">
-                <div class="date">{{ comment.created_date }}</div>
-                <strong>{{ comment.author }}</strong>
-                <p>{{ comment.text|linebreaks }}</p>
-            </div>
-            {% empty %}
-            <p>No comments here yet :(</p>
-            {% endfor %}
-        </div>
-        <br><br>
-        <a class="button1" href="{% url 'add_comment_to_post' board.id %}">댓글</a>
-        <a class="button2" href="{% url 'board' %}" role="button">목록</a>
-
-        <button class="button2">댓글보기</button> &nbsp;&nbsp;&nbsp;&nbsp;
-
-
-        </tbody>
-        </table>
-
-        </form>
-        </div>
-
-
 </body>
 
 </html>

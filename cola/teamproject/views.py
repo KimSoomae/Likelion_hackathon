@@ -113,11 +113,14 @@ def teamInfo(request):
     if request.method == 'POST':
         teamId = request.POST['teamId']
         team = Team.objects.get(id=teamId)
-        try:
-            members = team.showMembers()
-            return render(request, 'teamInfo.html', {'team':team, 'members':members})
-        except:
-            return render(request,'profile.html')
+        #try:
+        members = team.showMembers()
+        return render(request, 'teamInfo.html', {'team':team, 'members':members})
+        #except:
+        #    return render(request,'profile.html')
+    else:
+        print("############################teaminfo")
+        return render(request, 'teamInfo.html')
 
 
 
@@ -167,12 +170,18 @@ def changeTeamInfo(request):
         except:
             pass
         #refFile
+        '''
         try:
+            flist = request.FILES.getlist('refFile')
+            for f in flist:
+                tmp = open(os.path.join(os.getcwd(), 'media', f.name), 'wb+')
+                for chunk in f.chunks():
+                    tmp.write(chunk)
             team.refFile = request.FILES['refFile']
         except:
             pass
         ################################    
-        
+        '''
         team.save()
         
         teamId = request.POST['teamId']
@@ -180,11 +189,25 @@ def changeTeamInfo(request):
         members = team.showMembers()
         return render(request, 'teamInfo.html', {'team':team, 'members':members})
 
-def searchPerson(request):
-    if request.GET('man_name'):#get 으로 넘어온 이름
-        name = request.GET('man_name')
-        user = User.objects.get(username=name)
-        #db에서 찾아야함(username)
-        return render(request, 'teamInfo.html', {'username' : user})
+def searchPerson(request,team_id=None):
+    name = User.objects.all()
+    bring = request.GET.get('man_name')
+    if bring:
+    
+        name = name.filter(username=bring)
+        name2 ="찾는 이메일이 없습니다."
+        try:
+            if name.exists():
+                inviteTeam = Team.objects.get(id=team_id)
+                inviteMember = Invite(
+                    user = name,
+                    team = inviteTeam,
+                    inviter = request.user,
+                )
+                inviteMember.save()
+                return render(request, 'searchPerson.html', {'name' : name})
+            return render(request, 'searchPerson.html', {'msg' : name2})
+        except:
+            return render(request, 'searchPerson.html', {'msg' : name2}) 
     else:
-        return render(request, 'teamInfo.html')
+        return render(request, 'searchPerson.html')

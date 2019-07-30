@@ -15,7 +15,7 @@ class Team(models.Model):
         )
     progress = models.IntegerField(default=0, max_length=100)
     #자료조사파일
-    refFile = models.FileField(default = 0, upload_to='refFile/', null=True) 
+    refFile = models.FileField(default = 0, upload_to='refFile/', null=True)
     ################
     #product = models.FileField(upload_to=) ppt
     #참여도

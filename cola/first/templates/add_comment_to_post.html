@@ -114,6 +114,7 @@
             font-size: 10px;
             position: relative;
             top: -30px;
+            text-align: center;
         }
         
         .button2 {
@@ -127,6 +128,7 @@
             font-size: 10px;
             position: relative;
             top: -30px;
+            text-align: center;
         }
         
         .button3 {
@@ -140,6 +142,7 @@
             font-size: 10px;
             position: relative;
             top: -30px;
+            text-align: center;
         }
         
         .button1:hover {
@@ -214,45 +217,15 @@
         <br>
         <div class="new comment" style="margin-left:30px; font-family:'Do Hyeon', sans-serif;">
             <h2 style="margin-left:500px;">New comment</h2>
-            <form method="POST" class="post-form">{% csrf_token %} {{ form.as_p }}
-                <table style="margin-left:200px;">
-                    <tbody>
-                        <tr>
-                            <th> BOARD : </th>
-                            <td><select>
-                    <option value="firstType">research</option>
-                    <option value="secondType">ppt</option>
-                    <option value="thirdType">presentation</option>
-                </select></td>
-                        </tr>
-
-                        <tr>
-                            <th>TITLE : </th>
-                            <td><input type="text" placeholder="제목을 입력하세요." name="commentTitle"></td>
-                        </tr>
-
-                        <tr>
-                            <th>CONTENT : </th>
-                            <td><textarea cols="100" rows="10" placeholder="내용을 입력하세요." name="commentContent"></textarea></td>
-                        </tr>
-                        <tr>
-                            <th>NICKNAME : </th>
-                            <td><input type="text" value="" name="commentWriter"></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br><br><br>
-                <button class="button1" style="margin-left:400px;">SEND</button> &nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="button2">PREVIOUS</button> &nbsp;&nbsp;&nbsp;&nbsp;
-                <button class="button3">MAIN</button>
-
-                </tbody>
-                </table>
-
-            </form>
+            <table style="margin-left:200px;">
+                <form method="POST" class="post-form">
+                    {% csrf_token %} {{ form.as_p }}
+                    <button type="submit" class="button1" style="margin-left:400px;">SEND</button>
+                </form>
+            </table>
         </div>
 
-
+    </section>
 </body>
 
 </html>
