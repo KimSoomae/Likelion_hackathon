@@ -219,8 +219,12 @@
             <h2 style="margin-left:500px;">New comment</h2>
             <table style="margin-left:200px;">
                 <form method="POST" class="post-form">
-                    {% csrf_token %} {{ form.as_p }}
-                    <button type="submit" class="button1" style="margin-left:400px;">SEND</button>
+                    {% csrf_token %}
+                    <div style="margin-left:450px; margin-top : 30px;">
+                        {{ form.as_p }}
+                    </div>
+
+                    <button type="submit" class="button1" style="margin-left:530px; margin-top:50px;">SEND</button>
                 </form>
             </table>
         </div>

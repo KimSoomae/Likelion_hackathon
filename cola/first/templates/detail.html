@@ -193,7 +193,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <div align=center>
+                                <div style="text-align:center;">
                                     <h3>Post</h3>
                                 </div>
                             </td>
@@ -202,14 +202,14 @@
                             <td colspan=2>
                                 <table border="1" summary="목록 테이블 구성">
                                     <tr>
-                                        <td align=center bgcolor=white width=300px style="background-color:rgba(255, 102, 102, 0.295);">작성자</td>
-                                        <td bgcolor=white width=40%>멋사</td>
-                                        <td align=center bgcolor=white width=300px style="background-color:rgba(255, 102, 102, 0.295);">작성일</td>
-                                        <td bgcolor=white width=40%>{{board.pub_date}}</td>
+                                        <td style="text-align:center; bgcolor:white; width:300px; background-color:rgba(255, 102, 102, 0.295);">작성자</td>
+                                        <td style="text-align:center; bgcolor:white; width:40%;">{{ board.writer}}</td>
+                                        <td style="text-align:center; bgcolor:white; width:300px; background-color:rgba(255, 102, 102, 0.295);">작성일</td>
+                                        <td style="bgcolor:white; width:40%">{{board.pub_date}}</td>
                                     </tr>
                                     <tr>
-                                        <td align=center bgcolor=white style="background-color:rgba(255, 102, 102, 0.295);">TITLE</td>
-                                        <td align=center bgcolor=white colspan=3>
+                                        <td text-align=center; bgcolor=white style="background-color:rgba(255, 102, 102, 0.295);">TITLE</td>
+                                        <td text-align=center; bgcolor=white colspan=3>
                                             {{board.title}}
                                         </td>
                                     </tr>

@@ -4,6 +4,9 @@ from .models import Board,Comment,profile
 from .forms import CommentForm
 from django.contrib import auth
 
+#pagination
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 # Create your views here.
 def main(request):
     # not logged in -> main.html
@@ -50,8 +53,23 @@ def board(request):
     return render(request, 'board.html', {'boards':boards})
 
 def infoboard(request):
+    if not request.user.is_authenticated:
+        return render(request,'login.html')
     boards = Board.objects
-    return render(request, 'infoboard.html', {'boards':boards})
+    boards_list = Board.objects.all()
+    paginator = Paginator(boards_list, 10)
+    page = request.GET.get('page')
+    try:
+        queryset = paginator.page(page)
+    except PageNotAnInteger:
+        queryset = paginator.page(1)
+    except EmptyPage:
+        queryset = paginator.page(paginator.num_pages)
+    context = {
+		"object_list" : queryset,
+	}
+
+    return render(request, 'infoboard.html', context)
 
 def ppt_board(request):
     boards = Board.objects
@@ -83,11 +101,15 @@ def new(request):
 
 def create(request):
     board = Board()
+    conn_user = request.user
+    conn_profile = profile.objects.get(user=conn_user)
+    nick = conn_profile.userName
+    board.writer = nick
     board.title = request.GET['title']
     board.body = request.GET['body']
     board.pub_date = timezone.datetime.now()
     board.save()
-    return redirect('/board/'+str(board.id))
+    return redirect('/first/board/'+str(board.id))
 
 
 def logout(request):

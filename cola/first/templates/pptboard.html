@@ -152,9 +152,9 @@
     <section>
 
         <div class="w3-bar" style="font-size:18px;">
-            <a href="{% url 'infoboard' %}" class="w3-bar-item" style="color:black;">RESEARCH</a> &nbsp;
-            <a href="{% url 'pptboard' %}" class="w3-bar-item-" style="color:black;">PPT</a> &nbsp;
-            <a href="{% url 'presentationboard' %}" class="w3-bar-item" style="color:black;"> PRESENTATION</a>
+            <a href="#" class="w3-bar-item" style="color:black;">RESEARCH</a> &nbsp;
+            <a href="#" class="w3-bar-item-" style="color:black;">PPT</a> &nbsp;
+            <a href="#" class="w3-bar-item" style="color:black;"> PRESENTATION</a>
         </div>
         <br>
         <div id="div_board">
@@ -171,85 +171,19 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <div>
+                            {% for board in boards.all %}
+                            <a></a>
+                        </div>
 
                         <tr>
                             <td>1</td>
-                            <td>(한국외대-융소)컴논개 팀플</td>
+                            <td><a href="{% url 'detail' board.id%}">{{board.title}}</td>
                             <td>멋사</td>
-                            <td>2019.07.26</td>
-                            <td>37</td>
+                            <td>{{board.pub_date}}</td>
+                            <td><a href="{% url 'detail' board.id %}">댓글( {{ board.comments.count }} )</a></td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>(한국외대-경영)브랜드마케팅 팀플</td>
-                            <td>adlkfj</td>
-                            <td>2019.07.26</td>
-                            <td>65</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>(한국외대-미컴)방송영상콘텐츠의 이해 팀플</td>
-                            <td>qlkretjd</td>
-                            <td>2019.07.26</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>(한국외대)미네르바 팀플</td>
-                            <td>미네르바</td>
-                            <td>2019.07.26</td>
-                            <td>98</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>(한국외대-경제)정보통신경제학 팀플</td>
-                            <td>tpkfdjf</td>
-                            <td>2019.07.26</td>
-                            <td>78</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>(한국외대-정치외교)현대정치 팀플</td>
-                            <td>wjdcl</td>
-                            <td>2019.07.26</td>
-                            <td>37</td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>(한국외대-융소)컴논개 팀플</td>
-                            <td>멋사</td>
-                            <td>2019.07.26</td>
-                            <td>37</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>(한국외대-경영)브랜드마케팅 팀플</td>
-                            <td>adlkfj</td>
-                            <td>2019.07.26</td>
-                            <td>65</td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td>(한국외대-미컴)방송영상콘텐츠의 이해 팀플</td>
-                            <td>qlkretjd</td>
-                            <td>2019.07.26</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <td>(한국외대)미네르바 팀플</td>
-                            <td>미네르바</td>
-                            <td>2019.07.26</td>
-                            <td>98</td>
-                        </tr>
-                        <tr>
-                            <td>11</td>
-                            <td>(한국외대-경제)정보통신경제학 팀플</td>
-                            <td>tpkfdjf</td>
-                            <td>2019.07.26</td>
-                            <td>78</td>
-                        </tr>
-
+                        {% endfor %}
                     </tbody>
                 </table>
 
@@ -287,20 +221,6 @@
 
 
             </div>
-
-
-
-
-
-
-            <div>
-                {% for board in boards.all %}
-                <a></a>
-                <a href="{% url 'detail' board.id%}">{{board.title}} </a> &nbsp;
-                <a>{{board.pub_date}}</a>&nbsp; <a href="{% url 'detail' board.id %}">댓글( {{ board.comments.count }} )</a> <br>{% endfor %}
-            </div>
-        </div>
-
 
 </body>
 
