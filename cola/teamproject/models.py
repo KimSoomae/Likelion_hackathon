@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.shortcuts import render,redirect
 
+
 # Create your models here.
 class Team(models.Model):
     name = models.CharField(max_length=50)
@@ -41,3 +42,14 @@ class Invite(models.Model):
 
     def __str__(self):
         return "{0} -> {1}".format(self.user, self.team)
+
+
+class TeamBoard(models.Model):
+    title = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+    body = models.TextField()
+    img = models.ImageField(upload_to='teamboard/')
+    writer = models.CharField(max_length=100, default='')
+
+    def __str__(self):
+        return self.title

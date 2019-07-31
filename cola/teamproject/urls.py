@@ -8,4 +8,5 @@ urlpatterns = [
     path('teaminfo/change', views.changeTeamInfo, name="changeTeamInfo"),
     path('searchPerson/<int:team_id>', views.searchPerson, name="searchPerson"),
     path('searchPerson/', views.searchPerson, name="searchPerson"),
+    path('teamBoard/<int:teamBoard_id>', views.teamBoard, name="teamBoard"),
 ]

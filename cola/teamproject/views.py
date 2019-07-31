@@ -1,6 +1,6 @@
 from django.contrib import auth
 from django.shortcuts import render,redirect
-from .models import Team,Invite
+from .models import Team,Invite,TeamBoard
 import datetime
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -239,3 +239,8 @@ def searchPerson(request,team_id=None):
         # 초대 후 멤버 리스트 업데이트
         members = scoutingTeam.showMembers()
         return render(request, 'teamInfo.html', {'team':scoutingTeam, 'members':members})
+
+
+def teamBoard(request, teamBoard_id):
+    teamBoard = get_object_or_404(TeamBoard, pk = teamBoard_id)
+    return render(request, 'teamBoard.html', {'tb':teamBoard})
