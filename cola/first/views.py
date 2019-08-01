@@ -73,11 +73,71 @@ def infoboard(request):
 
 def detail(request, board_id):
     board_detail = get_object_or_404(Board, pk = board_id)
-    conn = request.user
+    conn_user = request.user
     conn_profile = profile.objects.get(user=conn_user)
     nick = conn_profile.userName
+    # 글쓴이와 들어온 사람이 같은지 확인(삭제/수정)
+    
+    bw = board_detail.writer
+    if bw == nick:
+        check = True
+    else :
+        check = False
+    return render(request, 'detail.html', {'board':board_detail, 'check' : check})
 
-    return render(request, 'detail.html', {'board':board_detail})
+def modify(request, board_id):
+    board = get_object_or_404(Board, pk = board_id)
+    return render(request, 'modify.html', {'board':board})
+
+def modifyAction(request, board_id):
+    board = get_object_or_404(Board, pk = board_id)
+    if request.POST['title'] == '' and request.POST['body'] == '':
+        pass
+    elif request.POST['title'] == '':
+        board.body = request.POST['body']
+    
+    elif request.POST['body'] == '':
+        board.title = request.POST['title']
+    else:
+        board.title = request.POST['title']
+        board.body = request.POST['body']
+        board.pub_date = timezone.datetime.now()
+    board.save()
+
+    conn_user = request.user
+    conn_profile = profile.objects.get(user=conn_user)
+    nick = conn_profile.userName
+    # 글쓴이와 들어온 사람이 같은지 확인(삭제/수정)
+    
+    bw = board.writer
+    if bw == nick:
+        check = True
+    else :
+        check = False
+    return render(request, 'detail.html', {'board':board, 'check' : check}) 
+
+
+def removeBoard(request, board_id):
+    board = get_object_or_404(Board, pk = board_id)
+    board.delete()
+
+    boards = Board.objects
+    boards_list = Board.objects.all()
+    paginator = Paginator(boards_list, 10)
+    page = request.GET.get('page')
+    try:
+        queryset = paginator.page(page)
+    except PageNotAnInteger:
+        queryset = paginator.page(1)
+    except EmptyPage:
+        queryset = paginator.page(paginator.num_pages)
+    context = {
+		"object_list" : queryset,
+	}
+
+    return render(request, 'infoboard.html', context)
+
+
 
 def add_comment_to_post(request, board_id):
     post = get_object_or_404(Board, pk=board_id)

@@ -30,6 +30,53 @@
 
 
     <style>
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+        /* Modal Content/Box */
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            /* Could be more or less, depending on screen size */
+        }
+        /* The Close Button */
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
         header {
             height: 80px;
             top: 30px;
@@ -877,21 +924,40 @@
         <h5 class="information">진행도 : {{team.progress}}</h5>
         <p class="img_left">
             <img src="https://img.icons8.com/ios-filled/26/000000/checkmark.png"></p>
+        <button id="myBtn">진행 지표 추가</button>
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div>
+                    <form method="POST" action="{% url 'createTodo' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{team.id}}" name="teamId">
+                        <input type="text" name="content" maxlength="50" placeholder="지표를 입력하세요.." />
+                        <input type="submit" value="생성" />
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <h5 class="information">진행상황 : </h5>
+        <p class="img_left">
+            <img src="https://img.icons8.com/ios-filled/26/000000/checkmark.png"></p>
         <h5 class="information">팀원리스트 </h5>
         <h5 class="information">
-            <li>{{members}}</li>
+            {% for member in members %}
+            <li>{{member}}</li>
+            {% endfor %}
         </h5>
 
 
         <a href="{% url 'searchPerson' team.id%}"><img src="https://img.icons8.com/color/48/000000/add-user-group-woman-woman.png"></a>
 
+
         <div class="bigbox"> </div>
         <p class="img_left">
             <img src="https://img.icons8.com/ios-filled/26/000000/checkmark.png"></p>
-        <h5 class="information">자료 파일 : {{team.refFile.url}}</h5>
-        <p class="img_left">
-            <img src="https://img.icons8.com/ios-filled/26/000000/checkmark.png"></p>
-        <h5 class="information"><a href="#">팀 게시판 : </a> </h5>
+        <h5 class="information"><a href="{% url 'teamBoard' team.id %} ">팀 게시판 : </a> </h5>
 
 
 
@@ -903,6 +969,35 @@
         <p class="img_left">
             <img src="https://img.icons8.com/ios-filled/26/000000/checkmark.png"></p>
         <h5 class="information">진행중 ..</h5>
-        {% endif %} {% endblock %}
+        {% endif %}
     </div>
+
+    <script type="text/javascript">
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    {% endblock %}
 </body>

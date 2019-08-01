@@ -188,10 +188,9 @@
 
         <div class="post" style="text-align:center; font-family:'Do Hyeon', sans-serif; margin-left:150px;">
 
-            <form name="BoardViewForm" method="POST">
+            <form name="BoardViewForm" method="POST" action="{% url 'modifyAction' board.id %}">
                 {% csrf_token %}
                 <table summary="전체 테이블 구성">
-
                     <tbody>
                         <tr>
                             <td>
@@ -207,16 +206,16 @@
                                         <td style="text-align:center; bgcolor:white; width:300px; background-color:rgba(255, 102, 102, 0.295);">작성자</td>
                                         <td style="text-align:center; bgcolor:white; width:40%;">{{ board.writer}}</td>
                                         <td style="text-align:center; bgcolor:white; width:300px; background-color:rgba(255, 102, 102, 0.295);">작성일</td>
-                                        <td style="bgcolor:white; width:40%">{{board.pub_date}}</td>
+                                        <td style="bgcolor:white; width:40%"></td>
                                     </tr>
                                     <tr>
                                         <td text-align=center; bgcolor=white; style="background-color:rgba(255, 102, 102, 0.295);">TITLE</td>
                                         <td text-align=center; style="background-color=white;" colspan=3>
-                                            {{board.title}}
+                                            <input type="text" name="title" placeholder="{{board.title}}" value="{{board.title}}">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan=4>{{board.body}}<br><br><br><br><br><br></td>
+                                        <td colspan=4><textarea name="body" placeholder="{{ board.body }}" value="{{board.body}}"></textarea><br><br><br><br><br><br></td>
                                     </tr>
 
                                     <tr>
@@ -231,22 +230,8 @@
                     </tbody>
                 </table>
 
-
-                <hr> {% for comment in board.comments.all %}
-                <div class="comment ">
-                    <div class="date ">{{ comment.created_date }}</div>
-                    <strong>{{ comment.author }}</strong>
-                    <p>{{ comment.text|linebreaks }}</p>
-                </div>
-                {% empty %}
-                <p>No comments here yet :(</p>
-                {% endfor %}
-
                 <br><br><br>
-                <a class="button1 " href="{% url 'add_comment_to_post' board.id %} " style="margin-left:-140px; ">COMMENT</a> &nbsp;&nbsp;&nbsp;
-                <a class="button2 " href="{% url 'infoboard' %} " role="button ">LIST</a> &nbsp;&nbsp;&nbsp;{% if check == True %}
-                <a class=" button1 " href="{% url 'modify' board.id %} " style="position:relative; ">수정하기</a> &nbsp;&nbsp;&nbsp;
-                <a class="button1 " href="{% url 'removeBoard' board.id %}" style="position:relative;">삭제하기</a> &nbsp;&nbsp;&nbsp; {% endif %}
+                <button class="button1 " style="margin-left:-140px; ">수정하기</a> &nbsp;&nbsp;&nbsp;
 
             </form>
 </body>
