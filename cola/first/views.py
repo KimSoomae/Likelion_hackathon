@@ -71,16 +71,12 @@ def infoboard(request):
 
     return render(request, 'infoboard.html', context)
 
-def ppt_board(request):
-    boards = Board.objects
-    return render(request, 'pptboard.html', {'boards':boards})
-
-def presentation_board(request):
-    boards = Board.objects
-    return render(request, 'presentationboard.html', {'boards':boards})
-
 def detail(request, board_id):
     board_detail = get_object_or_404(Board, pk = board_id)
+    conn = request.user
+    conn_profile = profile.objects.get(user=conn_user)
+    nick = conn_profile.userName
+
     return render(request, 'detail.html', {'board':board_detail})
 
 def add_comment_to_post(request, board_id):

@@ -48,7 +48,7 @@ class TeamBoard(models.Model):
     title = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
     body = models.TextField()
-    img = models.ImageField(upload_to='teamboard/')
+    File = models.FileField(upload_to='teamboard/')
     writer = models.CharField(max_length=100, default='')
 
     def __str__(self):
