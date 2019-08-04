@@ -13,10 +13,10 @@ class Board(models.Model):
         return self.title
 
 class Comment(models.Model):
-    post = models.ForeignKey('first.Board', on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=200, default='')
+    post = models.ForeignKey('first.Board', on_delete=models.CASCADE, related_name='comments') 
+    writer = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
     text = models.TextField()
-    created_date = models.DateTimeField(default=date.today())
+    created_date = models.DateField(default=date.today())
     approved_comment = models.BooleanField(default=False)
 
     def approve(self):

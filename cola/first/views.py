@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Board,Comment,profile
-from .forms import CommentForm
 from django.contrib import auth
 
 #pagination
@@ -41,12 +40,22 @@ def makeProfile(request):
     else:
         prof = profile()
     prof.user = request.user
-    prof.img = request.FILES['userPic']
-    prof.userName = request.POST['userName']
-    prof.school = request.POST['school']
-    prof.date = timezone.datetime.now()
+    try:
+        prof.img = request.FILES['userPic']
+    except:
+        pass
+    if request.POST['userName'] == '':
+        pass
+    else:
+        prof.userName = request.POST['userName']
+    if request.POST['school'] == '':
+        pass
+    else:
+        prof.school = request.POST['school']
     prof.save()
-    return redirect('main')
+    prof = request.user.profile
+    TeamList = prof.user.team_set.all().values()
+    return render(request,'mypage.html', {'Teams':TeamList, 'prof' : prof})
 
 def board(request):
     boards = Board.objects
@@ -139,18 +148,28 @@ def removeBoard(request, board_id):
 
 
 
-def add_comment_to_post(request, board_id):
-    post = get_object_or_404(Board, pk=board_id)
-    if request.method == "POST":
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.post = post
-            comment.save()
-            return render(request, 'detail.html', {'board':post})
-    else:
-        form = CommentForm()
-    return render(request, 'add_comment_to_post.html', {'form': form})
+def addComment(request):
+    print("entered!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    boardId = request.POST['boardId']
+    post = Board.objects.get(id=boardId)
+    print("qqqqq", post.title)
+    comment = Comment()
+    comment.post = post
+    comment.writer = request.user
+    comment.text = request.POST['content']
+    comment.save()
+    print("asdadasdad", comment.text)
+
+    nick = request.user.profile.userName
+    # 글쓴이와 들어온 사람이 같은지 확인(삭제/수정)
+    
+    bw = post.writer
+    if bw == nick:
+        check = True
+    else :
+        check = False
+    return render(request, 'detail.html', {'board':post, 'check' : check})
+
 
 def new(request):
     return render(request, 'new.html')
