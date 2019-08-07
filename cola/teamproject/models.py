@@ -23,7 +23,11 @@ class Team(models.Model):
         return self.name
     
     def showMembers(self):
-        return ["{0}({1})".format(t.profile.userName, t.username) for t in self.members.all()]
+        memList = ["{0}({1})".format(t.profile.userName, t.username) for t in self.members.all()]
+        if len(memList) >= 6:
+            memList = memList[:5]
+            memList += '...'
+        return memList
         #return "\n".join("{0}({1})".format(t.profile.userName, t.username) for t in self.members.all())
 
 class Team_todo(models.Model):
@@ -61,6 +65,7 @@ class TeamBoard(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class CommentTb(models.Model):
     post = models.ForeignKey('teamproject.TeamBoard', on_delete=models.CASCADE, related_name='commentTbs') 

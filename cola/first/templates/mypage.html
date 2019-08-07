@@ -675,6 +675,33 @@
             background-color: rgba(0, 0, 0, 0.4);
             /* Black w/ opacity */
         }
+        
+        .modal_title {
+            margin: -25px -25px 25px;
+            padding: 15px 25px;
+            line-height: 35px;
+            font-size: 26px;
+            font-weight: 300;
+            color: #aaa;
+            text-align: center;
+            text-shadow: 0 1px rgba(255, 255, 255, 0.75);
+            background: #f7f7f7;
+        }
+        
+        .modal_title:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: #c4e17f;
+            border-radius: 5px 5px 0 0;
+            background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+            background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+            background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+            background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+        }
         /* Modal Content/Box */
         
         .modal-content {
@@ -694,6 +721,7 @@
             float: right;
             font-size: 28px;
             font-weight: bold;
+            z-index: 0;
         }
         
         .close:hover,
@@ -770,7 +798,7 @@
                         <a href="{% url 'mypage' %}">마이 페이지</a>
                         <a href="{% url 'teamproject' %}">팀 페이지</a>
                         <a href="{% url 'createTeam' %}">팀 생성</a>
-                        <a href="{% url 'board' %}">게시판</a> {% if not request.user.is_authenticated %}
+                        <a href="{% url 'infoboard' %}">게시판</a> {% if not request.user.is_authenticated %}
                         <a href="{% url 'login' %}">로그인</a>
                         <a href="{% url 'signup' %}">회원가입</a> {% elif request.user.is_authenticated %}
                         <a href="{% url 'logout' %}">로그아웃</a> {% endif %}
@@ -834,6 +862,36 @@
         <script src="https://tympanus.net/Tutorials/ShapeHoverEffectSVG/js/snap.svg-min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script type="text/javascript">
+            $(window).scroll(function() {
+
+                // selectors
+                var $window = $(window),
+                    $body = $('body'),
+                    $panel = $('.panel');
+
+                // Change 33% earlier than scroll position so colour is there when you arrive.
+                var scroll = $window.scrollTop() + ($window.height() / 3);
+
+                $panel.each(function() {
+                    var $this = $(this);
+
+                    // if position is within range of this panel.
+                    // So position of (position of top of div <= scroll position) && (position of bottom of div > scroll position).
+                    // Remember we set the scroll to 33% earlier in scroll var.
+                    if ($this.position().top <= scroll && $this.position().top + $this.height() > scroll) {
+
+                        // Remove all classes on body with color-
+                        $body.removeClass(function(index, css) {
+                            return (css.match(/(^|\s)color-\S+/g) || []).join(' ');
+                        });
+
+                        // Add class of currently active div
+                        $body.addClass('color-' + $(this).data('color'));
+                    }
+                });
+
+            }).scroll();
+
             (function() {
 
                 // Define our constructor 
@@ -991,35 +1049,6 @@
             });
 
 
-            $(window).scroll(function() {
-
-                // selectors
-                var $window = $(window),
-                    $body = $('body'),
-                    $panel = $('.panel');
-
-                // Change 33% earlier than scroll position so colour is there when you arrive.
-                var scroll = $window.scrollTop() + ($window.height() / 3);
-
-                $panel.each(function() {
-                    var $this = $(this);
-
-                    // if position is within range of this panel.
-                    // So position of (position of top of div <= scroll position) && (position of bottom of div > scroll position).
-                    // Remember we set the scroll to 33% earlier in scroll var.
-                    if ($this.position().top <= scroll && $this.position().top + $this.height() > scroll) {
-
-                        // Remove all classes on body with color-
-                        $body.removeClass(function(index, css) {
-                            return (css.match(/(^|\s)color-\S+/g) || []).join(' ');
-                        });
-
-                        // Add class of currently active div
-                        $body.addClass('color-' + $(this).data('color'));
-                    }
-                });
-
-            }).scroll();
 
 
             function myFunction() {

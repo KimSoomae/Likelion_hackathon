@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 #pagination
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from datetime import datetime
 
 # Create your views here.
 
@@ -364,7 +365,9 @@ def teamboard_write(request):
     if request.method == "GET":
         teamId = request.GET['teamId']
         team = Team.objects.get(id=teamId)
-        return render(request, 'teamnew.html', {'team': team})
+        time = datetime.today()
+        return render(request, 'teamnew.html', {'team': team, 'time' : time})
+    
     elif request.method == "POST":    
         teamId = request.POST['teamId']
         team = Team.objects.get(id=teamId)
@@ -403,6 +406,9 @@ def teamboard_write(request):
 def teamdetail(request, board_id):
     board_detail = get_object_or_404(TeamBoard, pk = board_id)
 
+    #이름으로 파일 뜨기
+    filename = board_detail.File.name.split('/')[-1]
+    
     conn_user = request.user
     conn_profile = profile.objects.get(user=conn_user)
     nick = conn_profile.userName
@@ -413,7 +419,7 @@ def teamdetail(request, board_id):
         check = True
     else :
         check = False
-    return render(request, 'teamdetail.html', {'board':board_detail, 'check' : check})
+    return render(request, 'teamdetail.html', {'board':board_detail, 'check' : check, 'filename' : filename})
 
 def addCommentTb(request):
     boardId = request.POST['boardId']
