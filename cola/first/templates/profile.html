@@ -244,10 +244,6 @@
                 <div class="X">
                     {% if not user.profile %}
                     <h6>프로필을 생성하세요.</h6>
-                    {% else %}
-                    <h6>프로필을 변경하세요.</h6>
-                    {% endif %}
-
                     <form method="POST" enctype="multipart/form-data" action="{% url 'makeProfile' %}">
                         {% csrf_token %}
                         <input class="input-text" type="file" name="userPic" /><br>
@@ -260,9 +256,24 @@
                         <button class="submit">변경하기</button> {% endif %}
                     </form>
                 </div>
+                {% else %}
+                <h6>프로필을 변경하세요.</h6>
+                <form method="POST" enctype="multipart/form-data" action="{% url 'makeProfile' %}">
+                    {% csrf_token %}
+                    <input class="input-text" type="file" name="userPic" /><br>
 
+                    <input class="input-text" placeholder="{{request.user.profile.userName}}" name="userName" type="text"><br>
+                    <input class="input-text" maxlength="30" name="school" placeholder="{{request.user.profile.school}}" type="text"><br> {% if user.profile %}<br>
+                    <input class="box" type="hidden" name="type" value="change"><br> {% else %}
+                    <input class="box" type="hidden" name="type" value="create"> <br>{% endif %} {% if not user.profile %}
+                    <button class="submit">생성하기</button> {% else %}
+                    <button class="submit">변경하기</button> {% endif %}
+                </form>
             </div>
-            <div class="chart-container"><canvas id="myChart" width="425" height="200"></canvas></div>
+            {% endif %}
+
+        </div>
+        <div class="chart-container"><canvas id="myChart" width="425" height="200"></canvas></div>
 
 
 

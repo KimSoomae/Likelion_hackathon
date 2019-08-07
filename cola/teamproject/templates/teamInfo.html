@@ -1439,8 +1439,11 @@
         </div>
         <div class="item item--top">
             <div class="item__number">
-                <a href="{% url 'teamBoard' team.id %} " style="color:white">팀   게시판 </a>
-
+                <form method="POST" action="{% url 'teamBoard' %}">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{team.id}}" name="teamId">
+                    <input class="submit" type="submit" style="color:white" value="팀게시판">
+                </form>
             </div>
             <div class="item__topic">
                 <div class="item__topic__title">

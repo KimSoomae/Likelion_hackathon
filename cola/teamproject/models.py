@@ -62,3 +62,16 @@ class TeamBoard(models.Model):
     def __str__(self):
         return self.title
 
+class CommentTb(models.Model):
+    post = models.ForeignKey('teamproject.TeamBoard', on_delete=models.CASCADE, related_name='commentTbs') 
+    writer = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    text = models.TextField()
+    created_date = models.DateField(default=date.today())
+    approved_comment = models.BooleanField(default=False)
+
+    def approve(self):
+        self.approved_comment = True
+        self.save()
+
+    def __str__(self):
+        return self.text
