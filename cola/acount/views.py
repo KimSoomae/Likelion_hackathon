@@ -31,5 +31,9 @@ def login(request):
     return render(request, 'login.html')
 
 
-def firstpage(request):
-    return render(request, 'firstpage.html')
+def firstpage(request, teamList=None):
+    try:
+        TeamList = request.user.team_set.all().values()
+    except:
+        TeamList = None
+    return render(request, 'firstpage.html',{'Teams':TeamList})

@@ -9,66 +9,9 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
 
+from django.contrib import messages
 # Create your views here.
 
-def teamproject(request):
-    if not request.user.is_authenticated:
-        return render(request,'login.html')
-
-    try:
-        prof = request.user.profile
-        pass
-    except:
-        # profile X -> makeprofile -> profile.html
-        return render(request,'profile.html')
-
-    # 유저가 속한 모든 팀 리스트
-    TeamList = request.user.team_set.all().values()
-
-    try:
-        TeamList[0]
-    # 팀이 하나도 없을 때,
-    except IndexError: 
-        messages.warning(request, '팀 만들어야 들어갈 수 있음')
-        return render(request, 'createTeam.html')
-
-    # 제일 임박한 팀플 기한 = earliestDL, 미완성 프로젝트 개수 = nPrj, 평균완성도 = avgProgress
-    earliestDL = TeamList[0]['deadline']
-    earliestTeam = TeamList[0]['name']
-    nPrj, avgProgress = 0, 0
-    for team in TeamList:
-        if team['deadline'] < earliestDL:
-            earliestDL = team['deadline']
-            earliestTeam = team['name']
-        if team['is_finished'] == False:
-            nPrj += 1
-        avgProgress += team['progress']
-    
-    avgProgress /= len(TeamList)
-    avgProgress = floor(avgProgress)
-    earliestDL = datetime.strftime(earliestDL, "%Y-%m-%d")
-
-    # JS 위한 데이터 
-
-    #nTeam = len(TeamList)   # 팀 개수
-    #nameList = [team['name'] for team in TeamList] # 팀 이름 리스트
-    #progressList = [team['progress'] for team in TeamList] # 팀 완성도 리스트
-
-    
-    
-
-    return render(request,'teamproject.html',
-        {
-        'Teams':TeamList,
-        'earliestDL':earliestDL,
-        'earliestTeam':earliestTeam,
-        'nPrj':nPrj,
-        'avgProgress':avgProgress
-        #'nTeam' : nTeam,
-        #'nameList' : nameList,
-        #'progressList' : progressList
-        }
-    )
 
 def createTeam(request):
     if not request.user.is_authenticated:
@@ -81,12 +24,11 @@ def createTeam(request):
         except:
             # profile X -> makeprofile -> profile.html
             return render(request,'profile.html')
-
-        return render(request, 'createTeam.html')
+        TeamList = request.user.team_set.all().values()
+        return render(request, 'createTeam.html',{'Teams':TeamList})
     
     # team info, create team
     elif request.method == 'POST':
-
         '''create team'''
         t1 = Team()
         t1.name = request.POST['teamName']
@@ -119,6 +61,20 @@ def createTeam(request):
 def teamInfo(request):
     if not request.user.is_authenticated:
         return render(request,'login.html')
+    try:
+        prof = request.user.profile
+        pass
+    except:
+        # profile X -> makeprofile -> profile.html
+        return render(request,'profile.html')
+    # 유저가 속한 모든 팀 리스트
+    TeamList = request.user.team_set.all().values()
+    try:
+        TeamList[0]
+    # 팀이 하나도 없을 때,
+    except IndexError:
+        return render(request, 'createTeam.html')
+
     if request.method == 'POST':
         teamId = request.POST['teamId']
         team = Team.objects.get(id=teamId)
@@ -126,10 +82,11 @@ def teamInfo(request):
         progressList = team.team_todo_set.all().values()
 
         updateProgress(team)
-        return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList})
+        TeamList = request.user.team_set.all().values()
+        return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList,'Teams':TeamList})
     else:
         print("############################teaminfo")
-        return render(request, 'teamInfo.html')
+        return render(request,'teampage.html')
 
 def updateDeadline(team):
     dt_deadline = datetime.combine(team.deadline, datetime.min.time())
@@ -169,7 +126,8 @@ def createTodo(request):
 
     updateProgress(team)
     progressList = team.team_todo_set.all().values()
-    return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList})
+    TeamList = request.user.team_set.all().values()
+    return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList,'Teams':TeamList})
 
 def deleteTodo(request):
     teamId = request.POST['teamId']
@@ -186,7 +144,8 @@ def deleteTodo(request):
     updateProgress(team)
     members = team.showMembers()
     progressList = team.team_todo_set.all().values()
-    return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList})
+    TeamList = request.user.team_set.all().values()
+    return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList,'Teams':TeamList})
 
 def changeTodo(request):
     teamId = request.POST['teamId']
@@ -204,7 +163,8 @@ def changeTodo(request):
     members = team.showMembers()
     progressList = team.team_todo_set.all().values()
     updateProgress(team)
-    return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList})
+    TeamList = request.user.team_set.all().values()
+    return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList,'Teams':TeamList})
 
 def finishTodo(request):
     teamId = request.POST['teamId']
@@ -226,7 +186,8 @@ def finishTodo(request):
     updateProgress(team)
     members = team.showMembers()
     progressList = team.team_todo_set.all().values()
-    return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList})
+    TeamList = request.user.team_set.all().values()
+    return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList,'Teams':TeamList})
 
 '''
 지난 시간 -> 남은 시간으로 구현 변경 ㄱㄱ
@@ -238,7 +199,8 @@ def changeTeamInfo(request):
         request.POST['type']
         teamId = request.POST['teamId']
         team = Team.objects.get(id=teamId)
-        return render(request, 'changeTeamInfo.html', {'team':team})
+        TeamList = request.user.team_set.all().values()
+        return render(request, 'changeTeamInfo.html', {'team':team,'Teams':TeamList})
     # 팀 정보 변경 창에서 정보 입력하고 변경시
     # try -> 정보 입력시 변경
     # except -> 정보 미입력시 패스
@@ -284,8 +246,10 @@ def changeTeamInfo(request):
         team.timeFromStart = dt_deadline - datetime.now()
         
         team.deadline = team.deadline.strftime('%Y년%m월%d일'.encode('unicode-escape').decode()).encode().decode('unicode-escape')
+        TeamList = request.user.team_set.all().values()
+        return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList,'Teams':TeamList})
 
-        return render(request, 'teamInfo.html', {'team':team, 'members':members, 'progressList':progressList})
+        
 def searchPerson(request,team_id=None):
     # 초대하는 팀
     scoutingTeamId = team_id
@@ -318,8 +282,8 @@ def searchPerson(request,team_id=None):
             Invite.objects.get(user=newMember, team=scoutingTeam)
             members = scoutingTeam.showMembers()
             progressList = scoutingTeam.team_todo_set.all().values()
-
-            return render(request, 'teamInfo.html', {'team':scoutingTeam, 'members':members, 'progressList':progressList})
+            TeamList = request.user.team_set.all().values()
+            return render(request, 'teamInfo.html', {'team':scoutingTeam, 'members':members, 'progressList':progressList,'Teams':TeamList})
         except:
             pass
         # 초대 받은 적이 없다면 초대
@@ -338,8 +302,8 @@ def searchPerson(request,team_id=None):
         # 초대 후 멤버 리스트 업데이트
         members = scoutingTeam.showMembers()
         progressList = scoutingTeam.team_todo_set.all().values()
-
-        return render(request, 'teamInfo.html', {'team':scoutingTeam, 'members':members, 'progressList':progressList})
+        TeamList = request.user.team_set.all().values()
+        return render(request, 'teamInfo.html', {'team':scoutingTeam, 'members':members, 'progressList':progressList,'Teams':TeamList})
 
 
 def teamBoard(request, team_id):
@@ -355,21 +319,22 @@ def teamBoard(request, team_id):
     except EmptyPage:
         queryset = paginator.page(paginator.num_pages)
     
+    TeamList = request.user.team_set.all().values()
     context = {
       "object_list" : queryset,
-      "team" : team
+      "team" : team,
+      "Teams" : TeamList
    }
-
+    
     return render(request, 'teamBoard.html', context)
+def teamboard_new(request, team_id):
+    team = Team.objects.get(id=team_id)
+    time = datetime.today()
+    TeamList = request.user.team_set.all().values()
+    return render(request, 'teamnew.html', {'team' : team, 'time' : time,'Teams':TeamList})
 
 def teamboard_write(request, team_id=None):
-    if request.method == "GET":
-        #teamId = request.GET['teamId']
-        team = Team.objects.get(id=team_id)
-        time = datetime.today()
-        return render(request, 'teamnew.html', {'team': team, 'time' : time})
-    
-    elif request.method == "POST":    
+    if request.method == "POST":    
         teamId = request.POST['teamId']
         team = Team.objects.get(id=teamId)
 
@@ -405,7 +370,8 @@ def teamboard_write(request, team_id=None):
             check = True
         else :
             check = False
-        return render(request, 'teamdetail.html', {'board':board, 'check' : check})
+        TeamList = request.user.team_set.all().values()
+        return render(request, 'teamdetail.html', {'board':board, 'check' : check,'Teams':TeamList})
 
 def teamdetail(request, board_id):
     board_detail = get_object_or_404(TeamBoard, pk = board_id)
@@ -422,7 +388,8 @@ def teamdetail(request, board_id):
         check = True
     else :
         check = False
-    return render(request, 'teamdetail.html', {'board':board_detail, 'check' : check})
+    TeamList = request.user.team_set.all().values()
+    return render(request, 'teamdetail.html', {'board':board_detail, 'check' : check, 'Teams':TeamList})
 
 def removeBoardTb(request, board_id):
     board = get_object_or_404(TeamBoard, pk = board_id)
@@ -438,12 +405,64 @@ def removeBoardTb(request, board_id):
         queryset = paginator.page(1)
     except EmptyPage:
         queryset = paginator.page(paginator.num_pages)
+    TeamList = request.user.team_set.all().values()
     context = {
       "object_list" : queryset,
+      "Teams":TeamList
    }
 
     return render(request, 'teamBoard.html', context)
 
+def modifyTb(request, board_id):
+    board = TeamBoard.objects.get(id=board_id)
+    
+    TeamList = request.user.team_set.all().values()
+    return render(request, 'teammodify.html', {'board':board, 'Teams' : TeamList})
+
+def modifyActionTb(request, board_id):
+    board = get_object_or_404(TeamBoard, pk = board_id)
+    if request.POST['title'] == '' and request.POST['body'] == '':
+        pass
+    elif request.POST['title'] == '':
+        board.body = request.POST['body']
+    
+    elif request.POST['body'] == '':
+        board.title = request.POST['title']
+    else:
+        board.title = request.POST['title']
+        board.body = request.POST['body']
+        board.pub_date = timezone.datetime.now()
+    board.save()
+    if request.POST['filechange']:
+        #원래 올린 파일 삭제
+        bs = board.boards.all()
+        for was in bs:
+            if was.filename:
+                was.delete()
+        #새로운 파일로 첨부파일 수정        
+        for f in request.FILES.getlist("fileToUpload"):
+            #file saving process
+            def process(f):
+                files = FileTb()
+                files.board = board
+                files.boardFile = f
+                files.filename = f.name.split('/')[-1]
+                files.save()
+            process(f)
+    
+    conn_user = request.user
+    conn_profile = profile.objects.get(user=conn_user)
+    nick = conn_profile.userName
+    # 글쓴이와 들어온 사람이 같은지 확인(삭제/수정)
+    
+    bw = board.writer
+    if bw == nick:
+        check = True
+    else :
+        check = False
+
+    TeamList = request.user.team_set.all().values()
+    return render(request, 'detail.html', {'board':board, 'check' : check, 'Teams' : TeamList}) 
 
 def addCommentTb(request):
     boardId = request.POST['boardId']
@@ -462,7 +481,8 @@ def addCommentTb(request):
         check = True
     else :
         check = False
-    return render(request, 'teamdetail.html', {'board':post, 'check' : check})
+    TeamList = request.user.team_set.all().values()
+    return render(request, 'teamdetail.html', {'board':post, 'check' : check, 'Teams':TeamList})
 
 def deleteCommentTb(request):
     boardId = request.POST['boardId']
@@ -480,7 +500,8 @@ def deleteCommentTb(request):
         check = True
     else :
         check = False
-    return render(request, 'teamdetail.html', {'board':post, 'check' : check})
+    TeamList = request.user.team_set.all().values()
+    return render(request, 'teamdetail.html', {'board':post, 'check' : check, 'Teams':TeamList})
 
 def changeCommentTb(request):
 
@@ -497,7 +518,8 @@ def changeCommentTb(request):
             check = True
         else :
             check = False
-        return render(request, 'changeCommentTb.html', {'board':post, 'check' : check, 'commentId' : commentId})
+        TeamList = request.user.team_set.all().values()
+        return render(request, 'changeCommentTb.html', {'board':post, 'check' : check, 'commentId' : commentId,'Teams':TeamList})
     
     else:
         boardId = request.POST['boardId']
@@ -515,4 +537,5 @@ def changeCommentTb(request):
             check = True
         else :
             check = False
-        return render(request, 'teamdetail.html', {'board':post, 'check' : check})
+        TeamList = request.user.team_set.all().values()
+        return render(request, 'teamdetail.html', {'board':post, 'check' : check,'Teams':TeamList})

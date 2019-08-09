@@ -14,7 +14,9 @@ urlpatterns = [
     path('board/new/',views.new, name="new"),
     path('board/create2', views.create, name="create"),
     path('board/modify', views.modify, name="modify"),
+    path('board/modify/<int:board_id>', views.modify, name="modify"),
     path('board/modifyAction', views.modifyAction, name="modifyAction"),
+    path('board/modifyAction/<int:board_id>', views.modifyAction, name="modifyAction"),
     path('board/removeBoard/<int:board_id>', views.removeBoard, name="removeBoard"),
 
     #profile
