@@ -225,8 +225,10 @@
 
                                     <tr>
                                         <td align=center bgcolor=white width=300px style="background-color:rgba(255, 102, 102, 0.295); ">첨부파일</td>
-                                        <td bgcolor=white width=40%>
-                                            {% if filename %}<a href="{{ board.File.url }}" download>{{ filename }}</a> {% else %} 없음 {% endif %}</td>
+                                        <td bgcolor=white colspan=1>
+                                            {% for file in board.boards.all %} {% if file.filename %}
+                                            <a href="{{ file.boardFile.url }}" download>{{ file.filename }}</a><br> {% else %} 없음 {% endif %} {% endfor %}
+                                        </td>
                                         <td align=center bgcolor=white width=300px style="background-color:rgba(255, 102, 102, 0.295); ">VIEWS</td>
                                         <td bgcolor=white width=40%>{{board.views}}</td>
                                     </tr>
@@ -234,10 +236,27 @@
                             </td>
                         </tr>
                     </tbody>
+                    <hr>
+                    <div>
+                        {% if request.user.profile.userName == board.writer %}
+                        <form method="POST" action="{% url 'removeBoard' board.id ">
+                            {% csrf_token %}
+                            <input type="hidden" name="boardId" value="{{board.id}}">
+                            <input type="hidden" name="commentId" value="{{comment.id}}">
+                            <input class="btn btn-outline-secondary" style=" float:right; display:inline;" type="submit" value="삭제">
+                        </form>
+                        <form method="GET" action="{% url 'modify' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="boardId" value="{{board.id}}">
+                            <input type="hidden" name="commentId" value="{{comment.id}}">
+                            <input class="btn btn-outline-secondary" style="float:right; display:inline;" type="submit" value="수정">
+                        </form>
+                        {% endif %}
                 </table>
             </form>
-        </div>
+            </div>
     </section>
+
 
 
     <hr>

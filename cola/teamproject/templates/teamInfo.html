@@ -1,3 +1,4 @@
+{% extends 'base.html' %} {% block content %}
 <!DOCTYPE html>
 
 <html lang='ko'>
@@ -42,6 +43,23 @@
             src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/NIXGONM-Vb.woff') format('woff');
             font-weight: normal;
             font-style: normal;
+        }
+        
+        a {
+            color: #566473;
+            text-decoration: none;
+        }
+        
+        a:hover,
+        a:focus {
+            color: #34495e;
+        }
+        
+        .container {
+            max-width: 600px;
+            position: relative;
+            margin-top: 100px;
+            margin-left: 72px;
         }
         
         .modal {
@@ -528,10 +546,6 @@
             margin-bottom: 30px;
         }
         
-        .container {
-            padding-left: 110px;
-        }
-        
         .search-field-2 {
             display: block;
             width: 265px;
@@ -909,6 +923,8 @@
         
         @media (min-width: 1240px) {
             main {
+                position: absolute;
+                margin-left: 0px;
                 display: grid;
                 margin: auto;
                 max-width: 1150px;
@@ -1378,6 +1394,7 @@
         
         .modal_title {
             margin: -25px -25px 25px;
+            margin-top: 0%;
             padding: 15px 25px;
             line-height: 35px;
             font-size: 26px;
@@ -1461,28 +1478,28 @@
             box-shadow: none;
         }
         
-        :-moz-placeholder {
+         :-moz-placeholder {
             color: #ccc;
             font-weight: 300;
         }
         
-        ::-moz-placeholder {
+         ::-moz-placeholder {
             color: #ccc;
             opacity: 1;
             font-weight: 300;
         }
         
-        ::-webkit-input-placeholder {
+         ::-webkit-input-placeholder {
             color: #ccc;
             font-weight: 300;
         }
         
-        :-ms-input-placeholder {
+         :-ms-input-placeholder {
             color: #ccc;
             font-weight: 300;
         }
         
-        ::-moz-focus-inner {
+         ::-moz-focus-inner {
             border: 0;
             padding: 0;
         }
@@ -2091,6 +2108,11 @@
         .panel>h1 {
             font-family: 'Black Han Sans', sans-serif;
         }
+        
+        .content {
+            position: relative;
+            margin-top: 20%;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="main.css" charset="utf-8" />
 
@@ -2101,7 +2123,7 @@
 <body>
 
 
-    {% extends 'base.html' %} {% block content %} {% if request.user == team.leader %}
+    {% if request.user == team.leader %}
 
     <!--임시-->
     <main>

@@ -188,7 +188,7 @@
 
         <div class="post" style="text-align:center; font-family:'Do Hyeon', sans-serif; margin-left:150px;">
 
-            <form name="BoardViewForm" method="POST" action="{% url 'modifyAction' %}">
+            <form name="BoardViewForm" method="POST" action="{% url 'modifyActionTb' board.id %}">
                 {% csrf_token %}
                 <table summary="전체 테이블 구성">
                     <tbody>
@@ -212,7 +212,6 @@
                                         <td text-align=center; bgcolor=white; style="background-color:rgba(255, 102, 102, 0.295);">TITLE</td>
                                         <td text-align=center; style="background-color=white;" colspan=3>
                                             <input type="text" name="title" placeholder="{{board.title}}" value="{{board.title}}">
-                                            <input type="hidden" value="{{ baord.id }}">
                                         </td>
                                     </tr>
                                     <tr>
