@@ -39,6 +39,6 @@ and then do git pull
 사이트 : [콜라보레이션](http://hyoriezmann.pythonanywhere.com/)
 <br>
 QR code:
-<img src="./해커톤.jpg" width="150px" height="150px;>
+<img src="./해커톤.jpg" width="150px" height="150px;">
 ![QR CODE](./해커톤.jpg "cola"){: width="100" height="100"}
 
