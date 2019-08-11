@@ -40,5 +40,5 @@ and then do git pull
 <br>
 QR code:
 
-![QR CODE](./해커톤.jpg "cola")
+![QR CODE](./해커톤.jpg "cola"){: width="100" height="100"}
 
