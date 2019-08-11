@@ -37,6 +37,6 @@ and then do git pull
 <hr>
 QR code:
 
-![QR CODE](https://picasaweb.google.com/118245686317496590263/6723808122966937569#6723808129697412994=300 "cola")
+![QR CODE](./해커톤.jpg "cola")
 
 사이트 : [콜라보레이션](http://hyoriezmann.pythonanywhere.com/)
