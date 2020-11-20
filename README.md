@@ -8,17 +8,23 @@
 팀플을 한 곳에서 관리할 수 있는 플랫폼
 
 ### Screenshot
-메인화면:
+메인화면: 
+<br>
 <img src="./메인화면.jpg" width="600px" height="300px;">
 팀생성:
+<br>
 <img src="./팀생성.jpg" width="600px" height="300px;">
 프로필:
+<br>
 <img src="./프로필.jpg" width="600px" height="300px;">
-진행 지표 설정:
-<img src="./진행 지표 설정.jpg" width="600px" height="300px;">
+진행 지표 생성:
+<br>
+<img src="./진행 지표 생성.jpg" width="600px" height="300px;">
 진행상황:
+<br>
 <img src="./진행상황.jpg" width="600px" height="300px;">
 게시판:
+<br>
 <img src="./게시판.jpg" width="600px" height="300px;">
 
 
