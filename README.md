@@ -12,5 +12,5 @@ TEAM
 -back end: python
 -배포: pythonanywhere
 
-사이트 : [콜라보레이션] (http://hyoriezmann.pythonanywhere.com/) 
+사이트: [콜라보레이션](http://hyoriezmann.pythonanywhere.com/)
 
