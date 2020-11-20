@@ -7,6 +7,11 @@
 ### Introduction
 팀플을 한 곳에서 관리할 수 있는 플랫폼
 
+### Screenshot
+<img src="./진행상황.jpg" width="600px" height="300px;">
+
+
+
 
 ### TECH
  - framework : Django 	
