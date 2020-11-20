@@ -12,25 +12,31 @@
 <br>
 <img src="./메인화면.jpg" width="600px" height="300px;">
 <br>
+<br>
 팀생성:
 <br>
 <img src="./팀생성.jpg" width="600px" height="300px;">
+<br>
 <br>
 프로필:
 <br>
 <img src="./프로필.jpg" width="600px" height="300px;">
 <br>
+<br>
 진행 지표 생성:
 <br>
 <img src="./진행 지표 생성.jpg" width="600px" height="300px;">
+<br>
 <br>
 진행상황:
 <br>
 <img src="./진행상황.jpg" width="600px" height="300px;">
 <br>
+<br>
 게시판:
 <br>
 <img src="./게시판.jpg" width="600px" height="300px;">
+<br>
 <br>
 
 
