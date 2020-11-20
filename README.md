@@ -7,8 +7,8 @@ TEAM
 팀플을 한 곳에서 관리할 수 있는 플랫폼
 
 #TECH
--framework: Django
--front end: javascript, html, jquery, css
+-framework: Django \n
+-front end: javascript, html, jquery, css \n
 -back end: python
 -배포: pythonanywhere
 
