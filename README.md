@@ -69,9 +69,5 @@ and then do git pull
 
 <hr>
 <br>
-사이트 : [콜라보레이션](http://hyoriezmann.pythonanywhere.com/)
-<br>
-QR code:
-<img src="./해커톤.jpg" width="300px" height="300px;">
 
 
